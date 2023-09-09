@@ -2,33 +2,33 @@
 
 # set up a few variables for later
 $DownloadsFolderPath   = "~/Downloads/ToLibraryThing.csv"
-$LibraryThingImportURL = "https://www.librarything.com/import" 
+$LibraryThingImportURL = "https://www.librarything.com/import"
 $calibreDBHelpURL      = "https://manual.calibre-ebook.com/generated/en/calibredb.html"
 
 # check for calibredb
 try {
-	"Checking for Calibre..."
-	calibredb.exe --version
+    "Checking for Calibre..."
+    calibredb.exe --version
 }
 catch {
-	"Calibre command line database interface not found"
-	"Typing calibredb.exe --version in a PowerShell window has to work for this script to function"
-	"Please confirm Calibre installed and the calibredb command on your PATH" 
-	"See $calibreDBHelpURL for more info on the command"
-	exit 1
+    "Calibre command line database interface not found"
+    "Typing calibredb.exe --version in a PowerShell window has to work for this script to function"
+    "Please confirm Calibre installed and the calibredb command on your PATH"
+    "See $calibreDBHelpURL for more info on the command"
+    exit 1
 }
 
 # export library to json
 $calibreData = calibredb.exe list --fields all --for-machine
 
 # convert json to object
-$jsonData = $calibreData | ConvertFrom-JSON
+$jsonData = $calibreData | ConvertFrom-Json
 
 # grab just four fields from object, converting the pubdate to a yyyy-MM-dd format
-$trimmedData = $jsonData | Select-Object title,authors,pubdate,isbn,publisher 
+$trimmedData = $jsonData | Select-Object title, authors, pubdate, isbn, publisher
 
 # convert object to csv
-$csvData = $trimmedData | ConvertTo-CSV -NoTypeInformation
+$csvData = $trimmedData | ConvertTo-Csv -NoTypeInformation
 
 # save csv in your downloads folder
 $csvData | Out-File -Encoding utf8 -FilePath $DownloadsFolderPath
@@ -37,10 +37,13 @@ $csvData | Out-File -Encoding utf8 -FilePath $DownloadsFolderPath
 
 # open the csv with default editor for further review
 " Opening csv file viewer "
-Invoke-Item $DownloadsFolderPath 
+Invoke-Item $DownloadsFolderPath
 
 # open the Library Thing Import Page
 " Opening Library Thing Import Page "
 " This may not work if you aren't already logged into Library Thing "
 " You can just go $LibraryThingImportURL manually after logging in "
-Invoke-Item $LibraryThingImportURL
+Start-Process $LibraryThingImportURL
+
+
+# vim: set filetype=ps1 syntax=ps1 ts=4 sw=4 tw=0 :
