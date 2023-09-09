@@ -9,4 +9,4 @@ There isn't an established import/export method to do this easily.
 This is a Powershell script to make that process easier.
 #
 Let me know if you think it's useful or you have a better idea or whatever...
-Hit me up on Mastodon - furicle@mastodon.social Aug 2023
+Hit me up on [Mastodon](https://mastodon.social/@furicle)
