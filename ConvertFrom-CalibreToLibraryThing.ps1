@@ -27,7 +27,7 @@ $calibreData = calibredb.exe list --fields all --for-machine
 $jsonData = $calibreData | ConvertFrom-Json
 
 # grab just four fields from object, converting the pubdate to a yyyy-MM-dd format
-$trimmedData = $jsonData | Select-Object title, authors, pubdate, isbn, publisher
+$trimmedData = $jsonData | Select-Object title, authors,@{n='pubdate';e={([datetime]$_.pubdate).ToString('yyyy-MM-dd')}}, isbn, publisher
 
 # convert object to csv
 $csvData = $trimmedData | ConvertTo-Csv -NoTypeInformation
